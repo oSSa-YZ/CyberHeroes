@@ -1,0 +1,621 @@
+# Create a complete starter codebase for "Cyber Defender" with Next.js (App Router), TypeScript, Tailwind, Phaser 3.
+import os, json, zipfile, textwrap, pathlib
+
+root = "/mnt/data/cyber-defender-starter"
+if os.path.exists(root):
+    # clean previous
+    import shutil
+    shutil.rmtree(root)
+os.makedirs(root, exist_ok=True)
+
+def write(path, content):
+    full = os.path.join(root, path)
+    os.makedirs(os.path.dirname(full), exist_ok=True)
+    with open(full, "w", encoding="utf-8") as f:
+        f.write(content)
+
+# package.json
+write("package.json", json.dumps({
+  "name": "cyber-defender",
+  "private": True,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "14.2.5",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "phaser": "3.80.1",
+    "zustand": "4.5.2",
+    "zod": "3.23.8",
+    "framer-motion": "11.2.10",
+    "recharts": "2.12.7",
+    "lucide-react": "0.454.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "10.4.19",
+    "postcss": "8.4.41",
+    "tailwindcss": "3.4.10",
+    "typescript": "5.5.4",
+    "@types/node": "20.14.10",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.5"
+  }
+}, indent=2))
+
+# next.config.js
+write("next.config.js", textwrap.dedent("""\
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  experimental: { appDir: true }
+};
+module.exports = nextConfig;
+"""))
+
+# tsconfig.json
+write("tsconfig.json", json.dumps({
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": False,
+    "skipLibCheck": True,
+    "strict": True,
+    "noEmit": True,
+    "esModuleInterop": True,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": True,
+    "isolatedModules": True,
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}, indent=2))
+
+# next-env.d.ts
+write("next-env.d.ts", "/// <reference types=\"next\" />\n/// <reference types=\"next/image-types/global\" />\n\n// NOTE: This file should not be edited\n")
+
+# Tailwind & PostCSS config
+write("tailwind.config.ts", textwrap.dedent("""\
+import type { Config } from "tailwindcss";
+const config: Config = {
+  darkMode: "class",
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          600: "#4f46e5",
+          500: "#6366f1",
+          400: "#818cf8"
+        },
+        surface: "#0b1020",
+        muted: "#1f2937",
+        accent: "#f59e0b",
+        success: "#10b981",
+        danger: "#ef4444"
+      },
+      borderRadius: { "2xl": "1.25rem" },
+      boxShadow: { glass: "0 10px 25px rgba(0,0,0,.25)" }
+    },
+  },
+  plugins: [],
+};
+export default config;
+"""))
+
+write("postcss.config.js", textwrap.dedent("""\
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+"""))
+
+# globals.css
+write("styles/globals.css", textwrap.dedent("""\
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+
+body {
+  @apply bg-surface text-white;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.card {
+  @apply bg-muted/60 backdrop-blur rounded-2xl shadow-glass p-6;
+}
+
+.btn {
+  @apply inline-flex items-center gap-2 rounded-2xl px-4 py-2 bg-brand-600 hover:bg-brand-500 transition;
+}
+"""))
+
+# app layout and pages
+write("app/layout.tsx", textwrap.dedent("""\
+import "./../styles/globals.css";
+import Link from "next/link";
+import { ReactNode } from "react";
+
+export const metadata = {
+  title: "Cyber Defender",
+  description: "Security Awareness Games for Schools",
+};
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="en" className="dark">
+      <body>
+        <header className="sticky top-0 z-10 border-b border-white/10 bg-surface/80 backdrop-blur">
+          <nav className="mx-auto max-w-6xl flex items-center justify-between p-4">
+            <Link href="/" className="text-xl font-semibold">🛡️ Cyber Defender</Link>
+            <div className="flex gap-4 text-sm">
+              <Link href="/play">Play</Link>
+              <Link href="/learn">Learn</Link>
+              <Link href="/stats">Stats</Link>
+              <Link href="/about">About</Link>
+            </div>
+          </nav>
+        </header>
+        <main className="mx-auto max-w-6xl p-4">{children}</main>
+        <footer className="mx-auto max-w-6xl p-6 text-center text-white/60">
+          © {new Date().getFullYear()} Cyber Defender · For schools (ages 10–12)
+        </footer>
+      </body>
+    </html>
+  );
+}
+"""))
+
+write("app/page.tsx", textwrap.dedent("""\
+import Link from "next/link";
+
+export default function HomePage() {
+  return (
+    <section className="grid md:grid-cols-2 gap-6 items-center">
+      <div className="card">
+        <h1 className="text-3xl font-bold mb-2">Learn cyber safety by playing</h1>
+        <p className="text-white/80 mb-4">
+          Three bite-sized games teach safe browsing, downloads, and how defenses work.
+        </p>
+        <div className="flex gap-3">
+          <Link href="/play" className="btn">Play Now</Link>
+          <Link href="/learn" className="btn bg-white/10 hover:bg-white/20">Start Learning</Link>
+        </div>
+      </div>
+      <div className="card">
+        <ul className="space-y-3">
+          <li>🧱 <b>Network Defense</b> — place firewalls and stop virus waves.</li>
+          <li>📁 <b>Data Rescue</b> — sort safe vs infected files.</li>
+          <li>🧭 <b>Cyber Maze</b> — navigate away from fake links.</li>
+        </ul>
+      </div>
+    </section>
+  );
+}
+"""))
+
+write("app/play/page.tsx", textwrap.dedent("""\
+"use client";
+import dynamic from "next/dynamic";
+import { useState } from "react";
+
+const PhaserCanvas = dynamic(() => import("@/components/PhaserCanvas"), { ssr: false });
+
+import NetworkDefenseScene from "@/game/phaser/scenes/NetworkDefenseScene";
+import DataRescueScene from "@/game/phaser/scenes/DataRescueScene";
+import CyberMazeScene from "@/game/phaser/scenes/CyberMazeScene";
+
+const MODES = [
+  { id: "network", name: "Network Defense", scene: NetworkDefenseScene },
+  { id: "datarescue", name: "Data Rescue", scene: DataRescueScene },
+  { id: "cybermaze", name: "Cyber Maze", scene: CyberMazeScene },
+];
+
+export default function PlayPage() {
+  const [mode, setMode] = useState(MODES[0]);
+  return (
+    <div className="space-y-4">
+      <div className="card">
+        <h2 className="text-2xl font-semibold mb-3">Choose a game</h2>
+        <div className="flex gap-2 flex-wrap">
+          {MODES.map(m => (
+            <button
+              key={m.id}
+              onClick={() => setMode(m)}
+              className={`btn ${mode.id === m.id ? "" : "bg-white/10 hover:bg-white/20"}`}
+              aria-pressed={mode.id === m.id}
+            >
+              {m.name}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="card">
+        <PhaserCanvas width={960} height={540} sceneClass={mode.scene} />
+      </div>
+    </div>
+  );
+}
+"""))
+
+write("app/learn/page.tsx", textwrap.dedent("""\
+export default function LearnPage() {
+  return (
+    <div className="grid gap-4 md:grid-cols-2">
+      <article className="card">
+        <h2 className="text-xl font-semibold mb-2">Downloads & Files</h2>
+        <p className="text-white/80">Only download from trusted sources. If a file looks odd (double extensions, strange icons), don’t open it.</p>
+        <ul className="list-disc list-inside mt-3 text-white/70">
+          <li>Check the website address carefully.</li>
+          <li>Avoid “free gift” or “unlimited” pop-ups.</li>
+          <li>Ask an adult/teacher when unsure.</li>
+        </ul>
+      </article>
+      <article className="card">
+        <h2 className="text-xl font-semibold mb-2">Safe Browsing</h2>
+        <p className="text-white/80">Look out for fake download buttons and suspicious ads. Real sites don’t ask for passwords to claim random prizes.</p>
+      </article>
+    </div>
+  );
+}
+"""))
+
+write("app/stats/page.tsx", textwrap.dedent("""\
+"use client";
+import { useEffect, useState } from "react";
+
+type Session = { mode: string; score: number; date: string };
+
+export default function StatsPage() {
+  const [sessions, setSessions] = useState<Session[]>([]);
+  useEffect(() => {
+    const raw = localStorage.getItem("cd:sessions");
+    setSessions(raw ? JSON.parse(raw) : []);
+  }, []);
+  const avg = sessions.length ? Math.round(sessions.reduce((a, s) => a + s.score, 0) / sessions.length) : 0;
+  return (
+    <div className="card">
+      <h2 className="text-2xl font-semibold mb-2">Your recent scores</h2>
+      {sessions.length === 0 ? <p className="text-white/70">Play a game to see stats.</p> : (
+        <ul className="space-y-2">
+          {sessions.slice(-10).reverse().map((s, i) => (
+            <li key={i} className="flex justify-between border-b border-white/10 pb-1">
+              <span>{new Date(s.date).toLocaleString()} · {s.mode}</span>
+              <b>{s.score}</b>
+            </li>
+          ))}
+        </ul>
+      )}
+      <p className="mt-3">Average score: <b>{avg}</b></p>
+    </div>
+  );
+}
+"""))
+
+write("app/about/page.tsx", textwrap.dedent("""\
+export default function AboutPage() {
+  return (
+    <div className="card space-y-2">
+      <h2 className="text-2xl font-semibold">About Cyber Defender</h2>
+      <p className="text-white/80">This is a school-friendly project (ages 10–12) that teaches basic cyber safety using mini-games.</p>
+      <p className="text-white/70">Built with Next.js, TypeScript, Tailwind, and Phaser 3.</p>
+    </div>
+  );
+}
+"""))
+
+# Components
+write("components/PhaserCanvas.tsx", textwrap.dedent("""\
+"use client";
+import { useEffect, useRef } from "react";
+import Phaser from "phaser";
+
+type Props = {
+  width: number;
+  height: number;
+  sceneClass: new () => Phaser.Scene;
+};
+
+export default function PhaserCanvas({ width, height, sceneClass }: Props) {
+  const el = useRef<HTMLDivElement | null>(null);
+  const gameRef = useRef<Phaser.Game | null>(null);
+
+  useEffect(() => {
+    if (!el.current) return;
+    // Destroy previous instance
+    if (gameRef.current) {
+      gameRef.current.destroy(true);
+      gameRef.current = null;
+    }
+    const config: Phaser.Types.Core.GameConfig = {
+      type: Phaser.AUTO,
+      width,
+      height,
+      parent: el.current,
+      backgroundColor: "#0b1020",
+      physics: { default: "arcade", arcade: { debug: false } },
+      scene: [new sceneClass()],
+    };
+    gameRef.current = new Phaser.Game(config);
+    return () => {
+      gameRef.current?.destroy(true);
+      gameRef.current = null;
+    };
+  }, [width, height, sceneClass]);
+
+  return <div ref={el} className="w-full overflow-hidden rounded-2xl" />;
+}
+"""))
+
+# Simple event logger util
+write("lib/telemetry.ts", textwrap.dedent("""\
+export type SessionEvent = { type: string; payload?: any; at: string };
+export function logEvent(type: string, payload?: any) {
+  const ev: SessionEvent = { type, payload, at: new Date().toISOString() };
+  const raw = localStorage.getItem("cd:events");
+  const events = raw ? JSON.parse(raw) : [];
+  events.push(ev);
+  localStorage.setItem("cd:events", JSON.stringify(events));
+}
+
+export function saveScore(mode: string, score: number) {
+  const raw = localStorage.getItem("cd:sessions");
+  const sessions = raw ? JSON.parse(raw) : [];
+  sessions.push({ mode, score, date: new Date().toISOString() });
+  localStorage.setItem("cd:sessions", JSON.stringify(sessions));
+}
+"""))
+
+# Phaser scenes
+write("game/phaser/scenes/NetworkDefenseScene.ts", textwrap.dedent("""\
+import Phaser from "phaser";
+import { saveScore, logEvent } from "@/lib/telemetry";
+
+export default class NetworkDefenseScene extends Phaser.Scene {
+  private baseHP = 100;
+  private credits = 50;
+  private wave = 1;
+  private enemies!: Phaser.Physics.Arcade.Group;
+  private towers: Phaser.GameObjects.Rectangle[] = [];
+  private bullets!: Phaser.Physics.Arcade.Group;
+  private lastSpawn = 0;
+  private score = 0;
+
+  constructor() {
+    super("NetworkDefense");
+  }
+
+  preload() {}
+
+  create() {
+    this.cameras.main.setBackgroundColor("#0b1020");
+    logEvent("mode_start", { mode: "Network Defense" });
+
+    this.enemies = this.physics.add.group();
+    this.bullets = this.physics.add.group();
+    this.add.text(10, 10, "Network Defense", { color: "#ffffff" });
+
+    // Place initial tower
+    this.input.on("pointerdown", (p: Phaser.Input.Pointer) => {
+      if (this.credits >= 20) {
+        const rect = this.add.rectangle(p.x, p.y, 30, 30, 0x6366f1).setStrokeStyle(2, 0xffffff);
+        this.towers.push(rect);
+        this.credits -= 20;
+      }
+    });
+
+    this.physics.add.overlap(this.bullets, this.enemies, (b, e) => {
+      (b as Phaser.Physics.Arcade.Image).destroy();
+      const enemy = e as Phaser.Physics.Arcade.Sprite & { hp?: number };
+      enemy.hp = (enemy.hp ?? 3) - 1;
+      if (enemy.hp! <= 0) {
+        enemy.destroy();
+        this.score += 10;
+        this.credits += 5;
+      }
+    });
+  }
+
+  spawnEnemy() {
+    const enemy = this.physics.add.sprite(0, 300, "").setCircle(8).setTint(0xef4444);
+    enemy.setVelocity(60 + this.wave * 5, 0);
+    (enemy as any).hp = 3 + this.wave;
+    this.enemies.add(enemy);
+  }
+
+  update(time: number, delta: number) {
+    if (time - this.lastSpawn > 1000) {
+      this.spawnEnemy();
+      this.lastSpawn = time;
+    }
+
+    // Enemies reaching the base
+    this.enemies.children.iterate((child) => {
+      const e = child as Phaser.Physics.Arcade.Sprite;
+      if (e.x > 960) {
+        e.destroy();
+        this.baseHP -= 10;
+      }
+    });
+
+    // Towers shoot at nearest enemy
+    for (const t of this.towers) {
+      const target = this.enemies.getChildren()[0] as Phaser.Physics.Arcade.Sprite | undefined;
+      if (target && Phaser.Math.Distance.Between(t.x, t.y, target.x, target.y) < 200) {
+        if (!t.getData("lastShot") || time - t.getData("lastShot") > 300) {
+          const bullet = this.physics.add.image(t.x, t.y, "").setCircle(3).setTint(0xf59e0b);
+          this.bullets.add(bullet);
+          this.physics.moveTo(bullet, target.x, target.y, 300);
+          t.setData("lastShot", time);
+        }
+      }
+    }
+
+    // End conditions
+    if (this.baseHP <= 0) {
+      saveScore("Network Defense", this.score);
+      logEvent("session_end", { mode: "Network Defense", score: this.score });
+      this.scene.restart();
+    }
+  }
+}
+"""))
+
+write("game/phaser/scenes/DataRescueScene.ts", textwrap.dedent("""\
+import Phaser from "phaser";
+import { saveScore, logEvent } from "@/lib/telemetry";
+
+export default class DataRescueScene extends Phaser.Scene {
+  private vault!: Phaser.GameObjects.Rectangle;
+  private bin!: Phaser.GameObjects.Rectangle;
+  private score = 0;
+
+  constructor() { super("DataRescue"); }
+
+  create() {
+    this.cameras.main.setBackgroundColor("#0b1020");
+    logEvent("mode_start", { mode: "Data Rescue" });
+
+    this.add.text(10, 10, "Data Rescue (drag files)", { color: "#ffffff" });
+    this.vault = this.add.rectangle(820, 120, 250, 200, 0x10b981, 0.2).setStrokeStyle(2, 0x10b981);
+    this.add.text(760, 50, "SAFE VAULT", { color: "#10b981" });
+
+    this.bin = this.add.rectangle(820, 400, 250, 200, 0xef4444, 0.2).setStrokeStyle(2, 0xef4444);
+    this.add.text(770, 330, "TRASH SUSPICIOUS", { color: "#ef4444" });
+
+    this.time.addEvent({
+      delay: 800,
+      loop: true,
+      callback: () => this.spawnFile()
+    });
+  }
+
+  spawnFile() {
+    const infected = Math.random() < 0.4;
+    const file = this.add.rectangle(100 + Math.random()*600, 50, 90, 50, infected ? 0xef4444 : 0x818cf8)
+      .setStrokeStyle(2, 0xffffff)
+      .setData("infected", infected)
+      .setInteractive({ draggable: true });
+
+    this.input.setDraggable(file);
+    this.input.on("drag", (_p: any, g: any, x: number, y: number) => { g.x = x; g.y = y; });
+
+    this.input.on("dragend", (_p: any, g: any) => {
+      const isInVault = Phaser.Geom.Intersects.RectangleToRectangle((g as any).getBounds(), this.vault.getBounds());
+      const isInBin = Phaser.Geom.Intersects.RectangleToRectangle((g as any).getBounds(), this.bin.getBounds());
+      const infected = g.getData("infected");
+      if (isInVault && !infected) { this.score += 10; g.destroy(); }
+      else if (isInBin && infected) { this.score += 10; g.destroy(); }
+      else { this.score -= 5; }
+    });
+  }
+
+  update() {
+    // Simple session end after score threshold
+    if (this.score >= 100) {
+      saveScore("Data Rescue", this.score);
+      logEvent("session_end", { mode: "Data Rescue", score: this.score });
+      this.scene.restart();
+    }
+  }
+}
+"""))
+
+write("game/phaser/scenes/CyberMazeScene.ts", textwrap.dedent("""\
+import Phaser from "phaser";
+import { saveScore, logEvent } from "@/lib/telemetry";
+
+export default class CyberMazeScene extends Phaser.Scene {
+  private player!: Phaser.Physics.Arcade.Sprite;
+  private goal!: Phaser.GameObjects.Rectangle;
+  private traps!: Phaser.Physics.Arcade.Group;
+  private score = 0;
+
+  constructor() { super("CyberMaze"); }
+
+  create() {
+    this.cameras.main.setBackgroundColor("#0b1020");
+    logEvent("mode_start", { mode: "Cyber Maze" });
+
+    this.add.text(10, 10, "Cyber Maze (avoid traps, reach goal)", { color: "#ffffff" });
+
+    this.goal = this.add.rectangle(900, 500, 80, 40, 0x10b981).setStrokeStyle(2, 0xffffff);
+    this.traps = this.physics.add.group();
+
+    // Player
+    this.player = this.physics.add.sprite(60, 60, "").setCircle(10).setTint(0x818cf8);
+    this.player.setCollideWorldBounds(true);
+
+    // Traps (fake ads)
+    for (let i=0;i<12;i++) {
+      const t = this.physics.add.sprite(120 + i*60 % 800, 150 + (i*37)%350, "").setCircle(10).setTint(0xef4444);
+      t.setVelocity((Math.random()>0.5?100:-100), (Math.random()>0.5?60:-60)).setBounce(1,1);
+      this.traps.add(t);
+    }
+
+    // cursor keys
+    const cursors = this.input.keyboard!.createCursorKeys();
+    this.events.on("update", () => {
+      const speed = 180;
+      this.player.setVelocity(0,0);
+      if (cursors.left?.isDown) this.player.setVelocityX(-speed);
+      if (cursors.right?.isDown) this.player.setVelocityX(speed);
+      if (cursors.up?.isDown) this.player.setVelocityY(-speed);
+      if (cursors.down?.isDown) this.player.setVelocityY(speed);
+    });
+
+    // Overlaps
+    this.physics.add.overlap(this.player, this.traps, () => {
+      this.score = Math.max(0, this.score - 10);
+      this.player.setTint(0xf59e0b);
+      this.time.delayedCall(150, () => this.player.setTint(0x818cf8));
+    });
+
+    // reach goal check
+    this.time.addEvent({
+      delay: 100,
+      loop: true,
+      callback: () => {
+        if (Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(), this.goal.getBounds())) {
+          this.score += 50;
+          saveScore("Cyber Maze", this.score);
+          logEvent("session_end", { mode: "Cyber Maze", score: this.score });
+          this.scene.restart();
+        }
+      }
+    });
+  }
+}
+"""))
+
+# README
+write("README.md", textwrap.dedent("""\
+# Cyber Defender (Starter)
+
+School-friendly cybersecurity mini-games for ages 10–12. Built with **Next.js (App Router)**, **TypeScript**, **Tailwind**, and **Phaser 3**.
+
+## Games
+- **Network Defense** – place simple towers to stop virus waves.
+- **Data Rescue** – drag safe files to the vault, trash infected ones.
+- **Cyber Maze** – navigate away from traps to reach the safe goal.
+
+## Quick Start
+```bash
+npm install
+npm run dev

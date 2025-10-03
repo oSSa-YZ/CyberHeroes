@@ -1,0 +1,22 @@
+{
+  "gameLogicChanges": {
+    "wrongAnswerFlow": "currentEmailIndex remains unchanged",
+    "retryButton": "<button class='retry'>Try Again! 🔍</button>"
+  },
+  "hoverEffects": {
+    "selector": ".suspicious-keyword",
+    "css": ".suspicious-keyword:hover{background:yellow;cursor:url('magnify-glass.svg'),auto;} .suspicious-keyword:hover::after{content:attr(data-tooltip);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#ffeb3b;padding:5px;border-radius:4px;opacity:0;animation:fadeIn .3s forwards;}"
+  },
+  "correctAnswerEffects": {
+    "animation": "confetti 1s ease-out",
+    "emojiSequence": ["✅", "✨", "🌟"],
+    "characterReaction": "PhishyPhil.sadAnimation()"
+  },
+  "navigationStructure": [
+    {"text": "🎮 Games", "link": "/games"},
+    {"text": "📚 Activities", "link": "/activities"},
+    {"text": "🏅 Badges", "link": "/badges"},
+    {"text": "📊 Dashboard", "link": "/dashboard"},
+    {"text": "👨‍🏫 Teacher Portal", "link": "/teacher"}
+  ]
+}

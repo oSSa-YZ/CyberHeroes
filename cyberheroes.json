@@ -1,0 +1,249 @@
+{
+  "appName": "CyberHeroes",
+  "sections": {
+    "hero": {
+      "title": "Become a Cyber Hero!",
+      "description": "Play games & learn to be safe online!",
+      "cta": "Start Your Training!"
+    },
+    "games": {
+      "title": "Run Games!",
+      "items": [
+        {
+          "name": "Phishing Detective",
+          "level": "Beginner",
+          "cta": "Play Now!"
+        },
+        {
+          "name": "Password Protector",
+          "level": "Level 2",
+          "cta": "Play Now!"
+        },
+        {
+          "name": "Cyber Defender",
+          "level": "Advanced",
+          "cta": "Play Now!"
+        }
+      ],
+      "additionalGames": [
+        {
+          "name": "Privacy Patrol",
+          "level": "Managing",
+          "cta": "Play Now!"
+        },
+        {
+          "name": "Malware Monsters",
+          "level": "Action Game",
+          "cta": "Play Now!"
+        },
+        {
+          "name": "Cyber Hero Quiz",
+          "level": "All Levels",
+          "cta": "Play Now!"
+        }
+      ],
+      "ageGroups": ["Apps 8-12", "Apps 9-12", "Apps 8-13", "Apps 9-13"],
+      "certificateNote": "Get Your Certificate! 😊"
+    },
+    "badGuys": {
+      "title": "Meet the Bad Guys!",
+      "villains": [
+        {
+          "name": "Philsby Phil",
+          "description": "Sends fake messages to trick you!"
+        },
+        {
+          "name": "Malware Marvin",
+          "description": "Makes your device sick with viruses!"
+        },
+        {
+          "name": "Password Peeper",
+          "description": "Tries to steal your passwords!"
+        }
+      ],
+      "detailedVillains": [
+        {
+          "name": "Phishy Phil",
+          "dangerLevel": "High",
+          "description": "Sends fake emails and makes fake websites to steal your passwords!",
+          "traits": [
+            {"text": "Sends fake emails from games", "checked": false},
+            {"text": "Makes fake websites", "checked": true},
+            {"text": "How to Beat Him", "checked": false}
+          ]
+        },
+        {
+          "name": "Ransom Randy",
+          "dangerLevel": "Very High",
+          "description": "Locks up your files and games and demands payment to give them back!",
+          "traits": [
+            {"text": "Sneaks into your device", "checked": false},
+            {"text": "Asks for money", "checked": true},
+            {"text": "How to Beat Him", "checked": false}
+          ]
+        },
+        {
+          "name": "Sheaky Sam",
+          "dangerLevel": "Medium",
+          "description": "Hides in public WiFi and spies on what people do online!",
+          "traits": [
+            {"text": "Creates fake WiFi networks", "checked": true},
+            {"text": "Watches what you do online", "checked": true},
+            {"text": "How to Beat Him", "checked": false}
+          ]
+        }
+      ],
+      "cta": "See All Bad Guys",
+      "gamePrompt": {
+        "title": "Did You Know?",
+        "text": "Play the Bad Guy Detector Game!",
+        "subtext": "Can you spot all the tricks these bad guys use?",
+        "cta": "Play Next"
+      }
+    },
+    "superPowers": {
+      "title": "Your Super Powers!",
+      "powers": [
+        {
+          "name": "Password Power",
+          "description": "Create super strong passwords!"
+        },
+        {
+          "name": "Scan Spotter",
+          "description": "Spot fake messages and websites!"
+        },
+        {
+          "name": "Privacy Shield",
+          "description": "Keep your info safe and secret!"
+        }
+      ],
+      "detailedPowers": [
+        {
+          "name": "Password Power",
+          "level": "Level 1 Power",
+          "description": "Create super strong passwords",
+          "tips": [
+            "Use different passwords everywhere",
+            "Never share your passwords"
+          ],
+          "cta": "Master This Power!"
+        },
+        {
+          "name": "Device Shield",
+          "level": "Level 1 Power",
+          "description": "Keep apps and games updated",
+          "tips": [
+            "Use anti-virus shields",
+            "Lock your devices with codes"
+          ],
+          "cta": "Master This Power!"
+        },
+        {
+          "name": "Scan Spotter",
+          "level": "Level 2 Power",
+          "description": "Spot fake emails and websites",
+          "tips": [
+            "Check for the lock symbol",
+            "Be careful of too-good offers"
+          ],
+          "cta": "Master This Power!"
+        }
+      ],
+      "videoSection": {
+        "title": "Watch: How to Use Your Powers!",
+        "description": "Learn how to use your cyber powers with this fun video!"
+      },
+      "cta": "Learn All Powers"
+    },
+    "teacherPortal": {
+      "title": "For Teachers & Parents",
+      "description": "Track your child's progress, view detailed reports, and get insights into their cybersecurity learning journey.",
+      "features": [
+        {
+          "name": "Progress Dashboard",
+          "description": "View detailed progress reports and track completion of games, quizzes, and activities.",
+          "table": {
+            "headers": ["Class Management", "Learning Resources"],
+            "rows": [
+              "Create and manage student groups, assign activities, and monitor group progress.",
+              "Access lesson plans, worksheets, and additional teaching materials for cybersecurity."
+            ],
+            "ctas": ["Manage Classes", "Get Resources"]
+          }
+        },
+        {
+          "name": "Certificates & Reports",
+          "description": "Generate achievement certificates and detailed learning reports for students."
+        },
+        {
+          "name": "Teacher & Parent Portal",
+          "description": "Our secure portal gives you insights into learning progress and areas that need attention.",
+          "features": [
+            "Detailed Analytics",
+            "Printable Reports",
+            "Email Notifications",
+            "Achievement Tracking"
+          ],
+          "cta": "Access Portal"
+        }
+      ],
+      "sampleReport": {
+        "title": "Sample Progress Report",
+        "categories": [
+          "Phishing Awareness:",
+          "Password Security:",
+          "Online Privacy:"
+        ]
+      },
+      "footer": {
+        "copyright": "© 2025 CyberHeroes",
+        "links": ["For Parents", "For Teachers"]
+      }
+    },
+    "quiz": {
+      "title": "Cyber Hero Quiz",
+      "questions": [
+        {
+          "number": 1,
+          "total": 5,
+          "text": "Oh no! You got an email saying your game account will be deleted. What should you do?",
+          "options": [
+            {"text": "Click the link right away!", "correct": false},
+            {"text": "Ask a grown-up for help", "correct": true},
+            {"text": "Share your password", "correct": false},
+            {"text": "Ignore it completely", "correct": false}
+          ]
+        }
+      ],
+      "cta": "Check Answer"
+    },
+    "dashboard": {
+      "title": "Progress Dashboard",
+      "metrics": [
+        {"name": "Students", "value": 24, "description": "Active students"},
+        {"name": "Completed", "value": 18, "description": "Completed all modules"},
+        {"name": "In Progress", "value": 6, "description": "Students in progress"},
+        {"name": "Average Score", "value": "82%", "description": "Class average"}
+      ],
+      "tabs": ["Overview", "Reports"],
+      "progressOverview": {
+        "title": "Class Progress Overview",
+        "categories": [
+          "Phishing Awareness",
+          "Password Security",
+          "Online Privacy",
+          "Cyberbullying",
+          "Digital Footprint"
+        ]
+      },
+      "recentActivity": [
+        {"text": "Emma completed Password Security", "time": "Today: 10:45 AM"}
+      ],
+      "quickActions": ["Download Class Report"]
+    }
+  },
+  "navigation": {
+    "tabs": ["Game", "Activities", "Badges"],
+    "ageFilters": ["Apps 8-12", "Apps 9-12", "Apps 8-13", "Apps 9-13"]
+  }
+}

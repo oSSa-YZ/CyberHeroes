@@ -1,0 +1,58 @@
+{
+  "profiles": [
+    {
+      "username": "Mohammed ",
+      "fullName": "Mohammed ",
+      "avatarUrl": "",
+      "email": "mohammed@email.com",
+      "mobile": "",
+      "birthdate": "2015-01-01",
+      "studentNo": "500"
+    },
+    {
+      "username": "Saad",
+      "fullName": "Saad",
+      "avatarUrl": "",
+      "email": "saad@email.com",
+      "mobile": "",
+      "birthdate": "2017-06-12",
+      "studentNo": ""
+    },
+    {
+      "username": "Yousuf",
+      "fullName": "oSSa",
+      "avatarUrl": "/uploads/profiles/Yousuf-1757562530009.jpg",
+      "email": "",
+      "mobile": "",
+      "birthdate": "",
+      "studentNo": ""
+    },
+    {
+      "username": "Majed",
+      "fullName": "Majed",
+      "avatarUrl": "/uploads/profiles/Majed-1757484110315.jpg",
+      "email": "",
+      "mobile": "",
+      "birthdate": "",
+      "studentNo": ""
+    },
+    {
+      "username": "Ibrahim",
+      "fullName": "Ibrahim",
+      "avatarUrl": "/uploads/profiles/Ibrahim-1757484089333.png",
+      "email": "",
+      "mobile": "",
+      "birthdate": "",
+      "studentNo": ""
+    },
+    {
+      "username": "Mike",
+      "fullName": "Mike",
+      "avatarUrl": "/uploads/profiles/Mike-1757549220760.jpg",
+      "email": "",
+      "mobile": "",
+      "birthdate": "",
+      "studentNo": ""
+    }
+  ]
+}

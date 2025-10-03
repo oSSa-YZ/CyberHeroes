@@ -1,0 +1,14 @@
+{
+  "teachers": [
+    {
+      "username": "teacher",
+      "passwordHash": "44cd6718798a2b0c1f6d8ad41996497dd1a8a204c9ed2899c2501bbe054c0c5a",
+      "salt": "default-salt-for-teacher",
+      "email": "teacher@school.edu",
+      "fullName": "Default Teacher",
+      "school": "CyberHeroes School",
+      "role": "Teacher",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}
