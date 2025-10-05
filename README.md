@@ -16,7 +16,7 @@ Installation
 To get started with CyberHeroes2.0, clone the repository and install dependencies:
 
 bash
-git clone https://github.com/oSSa-YZ/CyberHeroes2.0.git
+git clone https://github.com/oSSa-YZ/CyberHeroes.git
 cd CyberHeroes2.0
 npm install
 Usage
