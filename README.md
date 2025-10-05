@@ -1,20 +1,5 @@
 CyberHeroes is a TypeScript-based project focused on cybersecurity and technological empowerment. This repository serves as the main codebase for the initiative led by oSSa-YZ, and is designed to support learning, collaboration, and innovation in cybersecurity.
 
-Table of Contents
-About
-
-Features
-
-Installation
-
-Usage
-
-Contributing
-
-License
-
-Contact
-
 About
 CyberHeroes2.0 aims to foster cybersecurity awareness and skill development by providing practical tools, educational modules, and interactive content. This project is driven primarily by TypeScript and may include related assets or integrations.
 
