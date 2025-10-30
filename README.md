@@ -1,36 +1,55 @@
-CyberHeroes is a TypeScript-based project focused on cybersecurity and technological empowerment. This repository serves as the main codebase for the initiative led by oSSa-YZ, and is designed to support learning, collaboration, and innovation in cybersecurity.
+# CyberHeroes
 
-About
-CyberHeroes2.0 aims to foster cybersecurity awareness and skill development by providing practical tools, educational modules, and interactive content. This project is driven primarily by TypeScript and may include related assets or integrations.
+A modern, TypeScript/Next.js project focused on cybersecurity learning and empowerment. The goal is to provide interactive content, practical tools, and a solid foundation for expanding cybersecurity modules over time.
 
-Features
-Built using TypeScript for robust and scalable development.
+## What it provides
+- **Interactive UI**: Modern, component-driven interface for lessons, labs, and activities.
+- **Modular content**: JSON- and TS-driven content that’s easy to extend.
+- **Learning focus**: Space for phishing awareness, cyber‐defense, and other training modules.
+- **Open collaboration**: Designed for contributions and iterative improvement.
 
-Modular architecture for easy expansion and maintenance.
+## Tech stack
+- Next.js 15, React 19, TypeScript 5
+- Tailwind CSS (utility styling) and PostCSS
+- Radix UI, framer-motion, zod, react-hook-form, and other UI/data helpers
 
-Placeholder for future cybersecurity learning modules.
+## Project structure
+- `app/` — Next.js App Router pages and layouts
+- `components/` — Reusable UI components
+- `styles/` — Global styles (Tailwind, CSS)
+- `data/` — JSON and content data (e.g., phishing, cyberheroes)
+- `lib/` — Utilities and helpers
+- `public/` — Static assets
+- `types/` — Shared TypeScript types
+- Root configs: `next.config.mjs`, `tailwind.config.ts`, `postcss.config.mjs`, `tsconfig.json`
 
-Supports collaboration and contribution from the open-source community.
-
-Installation
-To get started with CyberHeroes2.0, clone the repository and install dependencies:
-
-bash
+## Getting started
+```bash
 git clone https://github.com/oSSa-YZ/CyberHeroes.git
-cd CyberHeroes2.0
+cd CyberHeroes
 npm install
-Usage
-After installation, you can run the application using:
+npm run dev
+# visit http://localhost:3000
+```
 
-bash
-npm start
-Refer to individual module documentation for specialized functionality.
+### Scripts
+- `npm run dev` — Start local dev server
+- `npm run build` — Production build
+- `npm run start` — Start production server
+- `npm run lint` — Lint the codebase
 
-Contributing
-All contributions are welcome! Please fork the repository, create a feature branch, and submit a pull request with clear documentation.
+## Deployment
+You can deploy via any Next.js-compatible platform (e.g., Vercel, Netlify) or a Node server:
+```bash
+npm run build
+npm run start
+```
 
-License
-This project is open-sourced under an appropriate license (please update this section with actual license details).
+## Contributing
+Contributions are welcome! Please fork, create a branch, and open a pull request with clear scope and description.
 
-Contact
-For questions, feedback, or collaboration opportunities, please contact the repository owner via GitHub.
+## License
+Add an appropriate license file (e.g., MIT) at the repository root.
+
+## Links
+- Repository: https://github.com/oSSa-YZ/CyberHeroes
